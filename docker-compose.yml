@@ -1,0 +1,56 @@
+name: diagrams
+
+services:
+  #graphviz:
+  #  image: graphviz/graphviz
+  #  ports:
+  #    - 8090:8080
+
+  plantuml:
+    image: plantuml/plantuml-server
+    ports:
+      - 8008:8080
+
+  kroki:
+    image: yuzutech/kroki
+    environment:
+      - KROKI_BLOCKDIAG_HOST=blockdiag
+      - KROKI_MERMAID_HOST=mermaid
+      - KROKI_BPMN_HOST=bpmn
+      - KROKI_EXCALIDRAW_HOST=excalidraw
+      - KROKI_DIAGRAMSNET_HOST=diagramsnet
+      - KROKI_SAFE_MODE=unsafe
+      - KROKI_MAX_BODY_SIZE=10mb
+    ports:
+      - 8000:8000
+    depends_on:
+      #- blockdiag
+      - mermaid
+      - bpmn
+      - excalidraw
+      - diagramsnet
+
+  blockdiag:
+    image: yuzutech/kroki-blockdiag
+    expose:
+      - "8001"
+
+  mermaid:
+    image: yuzutech/kroki-mermaid
+    expose:
+      - "8002"
+
+  bpmn:
+    image: yuzutech/kroki-bpmn
+    expose:
+      - "8003"
+  
+  excalidraw:
+    image: yuzutech/kroki-excalidraw
+    expose:
+      - "8004"
+  
+  diagramsnet:
+    image: yuzutech/kroki-diagramsnet
+    expose:
+      - "8005"
